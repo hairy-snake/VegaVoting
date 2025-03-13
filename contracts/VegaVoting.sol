@@ -113,7 +113,7 @@ contract VegaVoting is Ownable, ERC721URIStorage {
 
         emit TokensUnstaked(msg.sender, amountToReturn);
     }
-
+    //it is admins responsibility to end vote after deadline -- we cant execute big loop on chain
     function TryToEndVoteByDeadline(uint256 voteId) external onlyOwner {
         endVote(voteId);
     }
