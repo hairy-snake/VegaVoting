@@ -1259,14 +1259,6 @@
 				"dweb:/ipfs/QmPFKL2r9CBsMwmUqqdcFPfHZB2qcs9g1HDrPxzWSxomvy"
 			]
 		},
-		"@openzeppelin/contracts/utils/math/SafeMath.sol": {
-			"keccak256": "0x58b21219689909c4f8339af00813760337f7e2e7f169a97fe49e2896dcfb3b9a",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://ef8e012e946dec20e59f2d4446f4b44bb098f3fa8bac103b1b5112fff777447b",
-				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
-			]
-		},
 		"@openzeppelin/contracts/utils/math/SignedMath.sol": {
 			"keccak256": "0xb1970fac7b64e6c09611e6691791e848d5e3fe410fa5899e7df2e0afd77a99e3",
 			"license": "MIT",
@@ -1276,11 +1268,11 @@
 			]
 		},
 		"contracts/VegaVoting.sol": {
-			"keccak256": "0xbab1be75030ef40d632e52351626d0df78db03163f068cdb5c8650f5cd535108",
+			"keccak256": "0x2741a914ffdbdcf1906e4b2a2f995d38766585fec48970c88389185e99753ec5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ae400f2b22bce455b5415e39ec77f29d225cbcd94bf38641d963812acd742b66",
-				"dweb:/ipfs/QmNwt6HzWVSLJSBsF4HrdwdRaDYxoL8t9Wy9rUbBk5CMLe"
+				"bzz-raw://e0dcfe8912d76f07ee6ac4b6e5bb3f3357685c8f20f7a75069a2fbe32f46fb89",
+				"dweb:/ipfs/QmXhViwfEoJXsokDF8K4dGY12bVJtrfVjX5tgQ3fgFXYrN"
 			]
 		}
 	},

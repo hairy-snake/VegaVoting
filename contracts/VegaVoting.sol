@@ -5,11 +5,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract VegaVoting is Ownable, ERC721URIStorage {
     using SafeERC20 for IERC20;
-    using SafeMath for uint256;
     
     IERC20 public vegaVoteToken;
     uint256 public nextVoteId;
@@ -50,7 +48,7 @@ contract VegaVoting is Ownable, ERC721URIStorage {
         require(period >= 0 && period <= 4 days * 365 + 1 days, "Invalid staking period");
         require(vegaVoteToken.transferFrom(msg.sender, address(this), amount), "Stake failed");
         
-        uint256 votingPower = amount.mul(period ** 2);
+        uint256 votingPower = amount + period ** 2;
         stakes[msg.sender].push(Stake(amount, period, votingPower, block.timestamp, true));
     }
 
@@ -68,7 +66,7 @@ contract VegaVoting is Ownable, ERC721URIStorage {
     }
 
     function createVote(string memory description, uint256 duration, uint256 threshold) external onlyOwner {
-        uint256 deadline = block.timestamp.add(duration);
+        uint256 deadline = block.timestamp + duration;
         votes[nextVoteId] = Vote(description, deadline, threshold, 0, 0, false);
         emit VoteCreated(nextVoteId, description, deadline, threshold);
         nextVoteId++;
@@ -81,7 +79,7 @@ contract VegaVoting is Ownable, ERC721URIStorage {
         uint256 totalVotingPower = 0;
         for (uint256 i = 0; i < stakes[msg.sender].length; i++) {
             if (stakes[msg.sender][i].active) {
-                totalVotingPower = totalVotingPower.add(stakes[msg.sender][i].votingPower);
+                totalVotingPower = totalVotingPower + stakes[msg.sender][i].votingPower;
             }
         }
         require(totalVotingPower > 0, "No voting power");
@@ -89,12 +87,12 @@ contract VegaVoting is Ownable, ERC721URIStorage {
         hasVoted[msg.sender][voteId] = true;
         
         if (choice) {
-            votes[voteId].yesVotes = votes[voteId].yesVotes.add(totalVotingPower);
+            votes[voteId].yesVotes = votes[voteId].yesVotes + totalVotingPower;
         } else {
-            votes[voteId].noVotes = votes[voteId].noVotes.add(totalVotingPower);
+            votes[voteId].noVotes = votes[voteId].noVotes + totalVotingPower;
         }
         
-        if (votes[voteId].yesVotes.add(votes[voteId].noVotes) >= votes[voteId].threshold) {
+        if (votes[voteId].yesVotes + votes[voteId].noVotes >= votes[voteId].threshold) {
             finalizeVote(voteId);
         }
         
@@ -102,7 +100,7 @@ contract VegaVoting is Ownable, ERC721URIStorage {
     }
     
     function finalizeVote(uint256 voteId) public {
-        require(block.timestamp >= votes[voteId].deadline || votes[voteId].yesVotes.add(votes[voteId].noVotes) >= votes[voteId].threshold, "Can't end vote now");
+        require(block.timestamp >= votes[voteId].deadline || votes[voteId].yesVotes + votes[voteId].noVotes >= votes[voteId].threshold, "Can't end vote now");
         require(!votes[voteId].finalized, "Vote is already ended");
         
         votes[voteId].finalized = true;
